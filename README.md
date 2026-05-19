@@ -10,6 +10,8 @@
 | Student Name 1 | Matrix_Num_1 | OS (BNF32303) | - |
 | Student Name 2 | Matrix_Num_2 | OS (BNF32303) | - |
 | Student Name 3 | Matrix_Num_3 | OS (BNF32303) | - |
+| Student Name 4 | Matrix_Num_4 | OS (BNF32303) | - |
+| Student Name 5 | Matrix_Num_5 | OS (BNF32303) | - |
 
 ## Component Overview
 ......
