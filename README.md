@@ -7,11 +7,11 @@
 | LEE ZI YANG | AN230131 | IoT (BNF44403) & OS (BNF32303) | - |
 | LIM WEI MING | AN230114 | IoT (BNF44403) & OS (BNF32303) | - |
 | LOO JIA QUAN | AN230105 | IoT (BNF44403) & OS (BNF32303) | - |
-| Student Name 1 | Matrix_Num_1 | OS (BNF32303) | - |
-| Student Name 2 | Matrix_Num_2 | OS (BNF32303) | - |
-| Student Name 3 | Matrix_Num_3 | OS (BNF32303) | - |
-| Student Name 4 | Matrix_Num_4 | OS (BNF32303) | - |
-| Student Name 5 | Matrix_Num_5 | OS (BNF32303) | - |
+| NUR DINI DAYANA BINTI AHMAD KHOMEINI | DN240100 | OS (BNF32303) | - |
+| KHAIRUNNAJLAA BINTI ZAMRI | DN240125 | OS (BNF32303) | - |
+| NUR ATIFAH AZIDA BINTI MD. AZLI | DN240098 | OS (BNF32303) | - |
+| NORFAIZ AMSYAR BIN NORFAIZAL | DN240096 | OS (BNF32303) | - |
+| MUHAMMAD HASANUL HILMAN BIN MOHD NORHASNI | DN240049 | OS (BNF32303) | - |
 
 ## Component Overview
 ......
