@@ -408,7 +408,9 @@
         "x": 130,
         "y": 180,
         "wires": [
-            []
+            [
+                "a00f2cda8a914983"
+            ]
         ]
     },
     {
@@ -416,7 +418,7 @@
         "type": "function",
         "z": "37c42323e7f1140b",
         "name": "function 4",
-        "func": "// Get the current local time\nlet d = new Date();\n\n// Helper function to convert a number to a 6-digit binary array\n// Example: 5 becomes [\"0\", \"0\", \"0\", \"1\", \"0\", \"1\"]\nfunction toBinaryArray(num) {\n    return num.toString(2).padStart(6, '0').split('');\n}\n\n// Attach the arrays to the message payload\nmsg.payload = {\n    h: toBinaryArray(d.getHours()),\n    m: toBinaryArray(d.getMinutes()),\n    s: toBinaryArray(d.getSeconds())\n};\n\nreturn msg;",
+        "func": "let d = new Date();\n\n// Convert number to 6-digit binary\nfunction getBin(num) {\n    return num.toString(2).padStart(6, '0');\n}\n\nlet h = getBin(d.getHours());\nlet m = getBin(d.getMinutes());\nlet s = getBin(d.getSeconds());\n\n// Function to draw a row of dots with the correct colors\nfunction drawRow(label, binaryStr) {\n    let rowHtml = `<div style=\"display: flex; align-items: center; margin-bottom: 10px;\">\n        <div style=\"color: #888; width: 40px; text-align: right; margin-right: 15px; font-weight: bold; font-size: 16px;\">${label}</div>`;\n    \n    // Check each of the 6 digits (0 or 1)\n    for (let i = 0; i < 6; i++) {\n        let isOn = binaryStr[i] === '1';\n        let bg = isOn ? '#00ffcc' : '#333'; // Neon green if ON, dark grey if OFF\n        let glow = isOn ? 'box-shadow: 0 0 12px #00ffcc;' : '';\n        rowHtml += `<div style=\"width: 24px; height: 24px; border-radius: 50%; background: ${bg}; margin: 0 6px; transition: all 0.2s; ${glow}\"></div>`;\n    }\n    rowHtml += `</div>`;\n    return rowHtml;\n}\n\n// Build the final HTML box\nmsg.payload = `<div style=\"background: #111; padding: 20px; border-radius: 12px; display: inline-block; font-family: monospace;\">\n    ${drawRow('HR', h)}\n    ${drawRow('MIN', m)}\n    ${drawRow('SEC', s)}\n</div>`;\n\nreturn msg;",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -426,13 +428,17 @@
         "x": 340,
         "y": 180,
         "wires": [
-            []
+            [
+                "faf6f6ae0c9a2c8a",
+                "8a34164adefe01b2"
+            ]
         ]
     },
     {
         "id": "faf6f6ae0c9a2c8a",
         "type": "ui-template",
         "z": "37c42323e7f1140b",
+        "d": true,
         "group": "11ffca905b3907f1",
         "page": "",
         "ui": "",
@@ -452,5 +458,29 @@
         "wires": [
             []
         ]
+    },
+    {
+        "id": "8a34164adefe01b2",
+        "type": "ui-text",
+        "z": "37c42323e7f1140b",
+        "group": "11ffca905b3907f1",
+        "order": 1,
+        "width": "0",
+        "height": "0",
+        "name": "",
+        "label": "Clock",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#717171",
+        "wrapText": false,
+        "className": "",
+        "value": "payload",
+        "valueType": "msg",
+        "x": 550,
+        "y": 120,
+        "wires": []
     }
 ]
