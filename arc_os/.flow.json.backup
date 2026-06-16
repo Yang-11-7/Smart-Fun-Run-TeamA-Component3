@@ -87,8 +87,8 @@
         ],
         "order": 1,
         "className": "",
-        "visible": "true",
-        "disabled": "false"
+        "visible": true,
+        "disabled": false
     },
     {
         "id": "11ffca905b3907f1",
@@ -109,8 +109,8 @@
         "type": "ui-group",
         "name": "Registration Desk",
         "page": "f911021317f2c119",
-        "width": 6,
-        "height": 1,
+        "width": "12",
+        "height": "5",
         "order": 1,
         "showTitle": true,
         "className": "bold-box",
@@ -144,8 +144,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 340,
-        "y": 260,
+        "x": 320,
+        "y": 140,
         "wires": [
             [
                 "ed153cfa73ebbad6"
@@ -172,8 +172,8 @@
         "className": "",
         "value": "payload",
         "valueType": "msg",
-        "x": 570,
-        "y": 260,
+        "x": 550,
+        "y": 140,
         "wires": []
     },
     {
@@ -197,8 +197,8 @@
         "topic": "",
         "payload": "",
         "payloadType": "date",
-        "x": 150,
-        "y": 260,
+        "x": 130,
+        "y": 140,
         "wires": [
             [
                 "9058f68ca9e8580c"
@@ -231,7 +231,7 @@
         "type": "ui-text",
         "z": "37c42323e7f1140b",
         "group": "3bae16769f8ef4ac",
-        "order": 2,
+        "order": 3,
         "width": "0",
         "height": "0",
         "name": "",
@@ -246,7 +246,7 @@
         "className": "",
         "value": "payload",
         "valueType": "msg",
-        "x": 570,
+        "x": 750,
         "y": 340,
         "wires": []
     },
@@ -291,7 +291,7 @@
         "page": "",
         "ui": "",
         "name": "",
-        "order": 1,
+        "order": 2,
         "width": "0",
         "height": "0",
         "head": "",
@@ -356,8 +356,8 @@
         "icon": "",
         "iconPosition": "left",
         "iconInnerPosition": "inside",
-        "x": 120,
-        "y": 500,
+        "x": 140,
+        "y": 480,
         "wires": [
             [
                 "b4d1c51264afea20"
@@ -385,102 +385,199 @@
         ]
     },
     {
-        "id": "9af5458237aa8660",
-        "type": "inject",
+        "id": "http1",
+        "type": "http request",
         "z": "37c42323e7f1140b",
-        "name": "",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
-            }
-        ],
-        "repeat": "1",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "x": 130,
-        "y": 180,
+        "name": "Get Google Sheet CSV",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "https://docs.google.com/spreadsheets/d/e/2PACX-1vTtRDXySe14pZAWfQw5PQ9DwD0YUa-OJHjatYeVyV9TViothpbORzBLjoIzFHdCUm-zPiIVvDKkpJRN/pub?output=csv",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 370,
+        "y": 680,
         "wires": [
             [
-                "a00f2cda8a914983"
+                "csv1"
             ]
         ]
     },
     {
-        "id": "a00f2cda8a914983",
+        "id": "csv1",
+        "type": "csv",
+        "z": "37c42323e7f1140b",
+        "name": "Parse to JSON",
+        "sep": ",",
+        "hdrin": true,
+        "hdrout": "none",
+        "multi": "mult",
+        "ret": "\\n",
+        "temp": "",
+        "skip": "0",
+        "strings": true,
+        "include_empty_strings": "",
+        "include_null_values": "",
+        "x": 590,
+        "y": 680,
+        "wires": [
+            [
+                "9b618fe05d11c3f4"
+            ]
+        ]
+    },
+    {
+        "id": "inject1",
+        "type": "inject",
+        "z": "37c42323e7f1140b",
+        "name": "Trigger Fetch",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "2",
+        "crontab": "",
+        "once": false,
+        "onceDelay": "",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 140,
+        "y": 680,
+        "wires": [
+            [
+                "http1"
+            ]
+        ]
+    },
+    {
+        "id": "9b618fe05d11c3f4",
         "type": "function",
         "z": "37c42323e7f1140b",
         "name": "function 4",
-        "func": "let d = new Date();\n\n// Convert number to 6-digit binary\nfunction getBin(num) {\n    return num.toString(2).padStart(6, '0');\n}\n\nlet h = getBin(d.getHours());\nlet m = getBin(d.getMinutes());\nlet s = getBin(d.getSeconds());\n\n// Function to draw a row of dots with the correct colors\nfunction drawRow(label, binaryStr) {\n    let rowHtml = `<div style=\"display: flex; align-items: center; margin-bottom: 10px;\">\n        <div style=\"color: #888; width: 40px; text-align: right; margin-right: 15px; font-weight: bold; font-size: 16px;\">${label}</div>`;\n    \n    // Check each of the 6 digits (0 or 1)\n    for (let i = 0; i < 6; i++) {\n        let isOn = binaryStr[i] === '1';\n        let bg = isOn ? '#00ffcc' : '#333'; // Neon green if ON, dark grey if OFF\n        let glow = isOn ? 'box-shadow: 0 0 12px #00ffcc;' : '';\n        rowHtml += `<div style=\"width: 24px; height: 24px; border-radius: 50%; background: ${bg}; margin: 0 6px; transition: all 0.2s; ${glow}\"></div>`;\n    }\n    rowHtml += `</div>`;\n    return rowHtml;\n}\n\n// Build the final HTML box\nmsg.payload = `<div style=\"background: #111; padding: 20px; border-radius: 12px; display: inline-block; font-family: monospace;\">\n    ${drawRow('HR', h)}\n    ${drawRow('MIN', m)}\n    ${drawRow('SEC', s)}\n</div>`;\n\nreturn msg;",
+        "func": "let latestRecord = \"\";\n\n// Loop through all the rows\nfor (let i = 0; i < msg.payload.length; i++) {\n    let person = msg.payload[i][\"The Person Finish Run\"];\n    let status = msg.payload[i][\"Status\"];\n    let time = msg.payload[i][\"Timestamp\"]; // Grab the exact time from Column A\n    \n    // Check if the cell has a name AND is checking in\n    if (person && person.trim() !== \"\" && status === \"Check in\") {\n        \n        // Format the text to match your desired style\n        latestRecord = \"🏃 \" + person + \" registered at \" + time;\n    }\n}\n\n// Output the final formatted string\nif (latestRecord !== \"\") {\n    msg.payload = latestRecord;\n} else {\n    msg.payload = \"Waiting for runners...\";\n}\n\nreturn msg;",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 340,
-        "y": 180,
+        "x": 820,
+        "y": 680,
         "wires": [
             [
-                "faf6f6ae0c9a2c8a",
-                "8a34164adefe01b2"
+                "16c058e92a7d5c0f"
             ]
         ]
     },
     {
-        "id": "faf6f6ae0c9a2c8a",
-        "type": "ui-template",
+        "id": "29e42885e8fe8f01",
+        "type": "debug",
         "z": "37c42323e7f1140b",
-        "d": true,
-        "group": "11ffca905b3907f1",
-        "page": "",
-        "ui": "",
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 880,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "2a6d420e3bed44c5",
+        "type": "ui-button",
+        "z": "37c42323e7f1140b",
+        "group": "3bae16769f8ef4ac",
         "name": "",
-        "order": 0,
-        "width": 0,
-        "height": 0,
-        "head": "",
-        "format": "<style>\n  /* The Matrix Container */\n  .matrix-container {\n      background: #111;\n      padding: 20px;\n      border-radius: 12px;\n      display: inline-block;\n      font-family: monospace;\n  }\n  /* The Rows */\n  .matrix-row {\n      display: flex;\n      align-items: center;\n      margin-bottom: 10px;\n  }\n  /* The Row Labels (HR, MIN, SEC) */\n  .matrix-label {\n      color: #888;\n      width: 40px;\n      text-align: right;\n      margin-right: 15px;\n      font-weight: bold;\n      font-size: 16px;\n  }\n  /* The Default (Off) Dots */\n  .dot {\n      width: 24px;\n      height: 24px;\n      border-radius: 50%;\n      background: #333;\n      margin: 0 6px;\n      transition: background 0.2s, box-shadow 0.2s;\n  }\n  /* The Glowing (On) Dots */\n  .dot-on {\n      background: #00ffcc;\n      box-shadow: 0 0 12px #00ffcc;\n  }\n</style>\n\n<div class=\"matrix-container\">\n    \n  <div class=\"matrix-row\">\n     <div class=\"matrix-label\">HR</div>\n     <div class=\"dot\" ng-class=\"{'dot-on': msg.payload.h[0] === '1'}\"></div>\n     <div class=\"dot\" ng-class=\"{'dot-on': msg.payload.h[1] === '1'}\"></div>\n     <div class=\"dot\" ng-class=\"{'dot-on': msg.payload.h[2] === '1'}\"></div>\n     <div class=\"dot\" ng-class=\"{'dot-on': msg.payload.h[3] === '1'}\"></div>\n     <div class=\"dot\" ng-class=\"{'dot-on': msg.payload.h[4] === '1'}\"></div>\n     <div class=\"dot\" ng-class=\"{'dot-on': msg.payload.h[5] === '1'}\"></div>\n  </div>\n\n  <div class=\"matrix-row\">\n     <div class=\"matrix-label\">MIN</div>\n     <div class=\"dot\" ng-class=\"{'dot-on': msg.payload.m[0] === '1'}\"></div>\n     <div class=\"dot\" ng-class=\"{'dot-on': msg.payload.m[1] === '1'}\"></div>\n     <div class=\"dot\" ng-class=\"{'dot-on': msg.payload.m[2] === '1'}\"></div>\n     <div class=\"dot\" ng-class=\"{'dot-on': msg.payload.m[3] === '1'}\"></div>\n     <div class=\"dot\" ng-class=\"{'dot-on': msg.payload.m[4] === '1'}\"></div>\n     <div class=\"dot\" ng-class=\"{'dot-on': msg.payload.m[5] === '1'}\"></div>\n  </div>\n\n  <div class=\"matrix-row\">\n     <div class=\"matrix-label\">SEC</div>\n     <div class=\"dot\" ng-class=\"{'dot-on': msg.payload.s[0] === '1'}\"></div>\n     <div class=\"dot\" ng-class=\"{'dot-on': msg.payload.s[1] === '1'}\"></div>\n     <div class=\"dot\" ng-class=\"{'dot-on': msg.payload.s[2] === '1'}\"></div>\n     <div class=\"dot\" ng-class=\"{'dot-on': msg.payload.s[3] === '1'}\"></div>\n     <div class=\"dot\" ng-class=\"{'dot-on': msg.payload.s[4] === '1'}\"></div>\n     <div class=\"dot\" ng-class=\"{'dot-on': msg.payload.s[5] === '1'}\"></div>\n  </div>\n\n</div>",
-        "storeOutMessages": true,
-        "passthru": true,
-        "resendOnRefresh": true,
-        "templateScope": "local",
+        "label": "Clear Screen",
+        "order": 1,
+        "width": "2",
+        "height": "1",
+        "emulateClick": false,
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
         "className": "",
-        "x": 560,
-        "y": 180,
+        "icon": "gesture-tap",
+        "iconPosition": "left",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "buttonColor": "",
+        "textColor": "",
+        "iconColor": "",
+        "enableClick": true,
+        "enablePointerdown": false,
+        "pointerdownPayload": "",
+        "pointerdownPayloadType": "str",
+        "enablePointerup": false,
+        "pointerupPayload": "",
+        "pointerupPayloadType": "str",
+        "x": 170,
+        "y": 260,
         "wires": [
-            []
+            [
+                "0ade3a9113a3b6f2"
+            ]
         ]
     },
     {
-        "id": "8a34164adefe01b2",
-        "type": "ui-text",
+        "id": "0ade3a9113a3b6f2",
+        "type": "change",
         "z": "37c42323e7f1140b",
-        "group": "11ffca905b3907f1",
-        "order": 1,
-        "width": "0",
-        "height": "0",
         "name": "",
-        "label": "Clock",
-        "format": "{{msg.payload}}",
-        "layout": "row-spread",
-        "style": false,
-        "font": "",
-        "fontSize": 16,
-        "color": "#717171",
-        "wrapText": false,
-        "className": "",
-        "value": "payload",
-        "valueType": "msg",
-        "x": 550,
-        "y": 120,
-        "wires": []
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 360,
+        "y": 260,
+        "wires": [
+            [
+                "737f7057ac5cfa18"
+            ]
+        ]
+    },
+    {
+        "id": "16c058e92a7d5c0f",
+        "type": "rbe",
+        "z": "37c42323e7f1140b",
+        "name": "",
+        "func": "rbe",
+        "gap": "",
+        "start": "",
+        "inout": "out",
+        "septopics": true,
+        "property": "payload",
+        "topi": "topic",
+        "x": 670,
+        "y": 580,
+        "wires": [
+            [
+                "737f7057ac5cfa18",
+                "29e42885e8fe8f01"
+            ]
+        ]
     }
 ]

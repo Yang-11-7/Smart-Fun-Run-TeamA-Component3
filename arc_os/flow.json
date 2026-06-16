@@ -87,8 +87,8 @@
         ],
         "order": 1,
         "className": "",
-        "visible": "true",
-        "disabled": "false"
+        "visible": true,
+        "disabled": false
     },
     {
         "id": "11ffca905b3907f1",
@@ -109,8 +109,8 @@
         "type": "ui-group",
         "name": "Registration Desk",
         "page": "f911021317f2c119",
-        "width": 6,
-        "height": 1,
+        "width": "12",
+        "height": "5",
         "order": 1,
         "showTitle": true,
         "className": "bold-box",
@@ -144,8 +144,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 340,
-        "y": 260,
+        "x": 320,
+        "y": 140,
         "wires": [
             [
                 "ed153cfa73ebbad6"
@@ -172,8 +172,8 @@
         "className": "",
         "value": "payload",
         "valueType": "msg",
-        "x": 570,
-        "y": 260,
+        "x": 550,
+        "y": 140,
         "wires": []
     },
     {
@@ -197,8 +197,8 @@
         "topic": "",
         "payload": "",
         "payloadType": "date",
-        "x": 150,
-        "y": 260,
+        "x": 130,
+        "y": 140,
         "wires": [
             [
                 "9058f68ca9e8580c"
@@ -231,7 +231,7 @@
         "type": "ui-text",
         "z": "37c42323e7f1140b",
         "group": "3bae16769f8ef4ac",
-        "order": 2,
+        "order": 3,
         "width": "0",
         "height": "0",
         "name": "",
@@ -246,7 +246,7 @@
         "className": "",
         "value": "payload",
         "valueType": "msg",
-        "x": 570,
+        "x": 750,
         "y": 340,
         "wires": []
     },
@@ -291,7 +291,7 @@
         "page": "",
         "ui": "",
         "name": "",
-        "order": 1,
+        "order": 2,
         "width": "0",
         "height": "0",
         "head": "",
@@ -356,8 +356,8 @@
         "icon": "",
         "iconPosition": "left",
         "iconInnerPosition": "inside",
-        "x": 120,
-        "y": 500,
+        "x": 140,
+        "y": 480,
         "wires": [
             [
                 "b4d1c51264afea20"
@@ -381,6 +381,202 @@
         "wires": [
             [
                 "df4759a03c36e3d6"
+            ]
+        ]
+    },
+    {
+        "id": "http1",
+        "type": "http request",
+        "z": "37c42323e7f1140b",
+        "name": "Get Google Sheet CSV",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "https://docs.google.com/spreadsheets/d/e/2PACX-1vTtRDXySe14pZAWfQw5PQ9DwD0YUa-OJHjatYeVyV9TViothpbORzBLjoIzFHdCUm-zPiIVvDKkpJRN/pub?output=csv",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 370,
+        "y": 680,
+        "wires": [
+            [
+                "csv1"
+            ]
+        ]
+    },
+    {
+        "id": "csv1",
+        "type": "csv",
+        "z": "37c42323e7f1140b",
+        "name": "Parse to JSON",
+        "sep": ",",
+        "hdrin": true,
+        "hdrout": "none",
+        "multi": "mult",
+        "ret": "\\n",
+        "temp": "",
+        "skip": "0",
+        "strings": true,
+        "include_empty_strings": "",
+        "include_null_values": "",
+        "x": 590,
+        "y": 680,
+        "wires": [
+            [
+                "9b618fe05d11c3f4"
+            ]
+        ]
+    },
+    {
+        "id": "inject1",
+        "type": "inject",
+        "z": "37c42323e7f1140b",
+        "name": "Trigger Fetch",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "2",
+        "crontab": "",
+        "once": false,
+        "onceDelay": "",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 140,
+        "y": 680,
+        "wires": [
+            [
+                "http1"
+            ]
+        ]
+    },
+    {
+        "id": "9b618fe05d11c3f4",
+        "type": "function",
+        "z": "37c42323e7f1140b",
+        "name": "function 4",
+        "func": "let latestRecord = \"\";\n\n// Loop through all the rows\nfor (let i = 0; i < msg.payload.length; i++) {\n    // Grab the name from Column B (\"Full name\") instead of Column I\n    let person = msg.payload[i][\"Full name\"]; \n    let status = msg.payload[i][\"Status\"];\n    let time = msg.payload[i][\"Timestamp\"]; \n    \n    // Check if the cell has a name AND is checking in\n    if (person && person.trim() !== \"\" && status === \"Check in\") {\n        \n        // Format the text to match your desired style\n        latestRecord = \"🏃 \" + person + \" registered at \" + time;\n    }\n}\n\n// Output the final formatted string\nif (latestRecord !== \"\") {\n    msg.payload = latestRecord;\n} else {\n    msg.payload = \"Waiting for runners...\";\n}\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 820,
+        "y": 680,
+        "wires": [
+            [
+                "16c058e92a7d5c0f"
+            ]
+        ]
+    },
+    {
+        "id": "29e42885e8fe8f01",
+        "type": "debug",
+        "z": "37c42323e7f1140b",
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 880,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "2a6d420e3bed44c5",
+        "type": "ui-button",
+        "z": "37c42323e7f1140b",
+        "group": "3bae16769f8ef4ac",
+        "name": "",
+        "label": "Clear Screen",
+        "order": 1,
+        "width": "2",
+        "height": "1",
+        "emulateClick": false,
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "gesture-tap",
+        "iconPosition": "left",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "buttonColor": "",
+        "textColor": "",
+        "iconColor": "",
+        "enableClick": true,
+        "enablePointerdown": false,
+        "pointerdownPayload": "",
+        "pointerdownPayloadType": "str",
+        "enablePointerup": false,
+        "pointerupPayload": "",
+        "pointerupPayloadType": "str",
+        "x": 170,
+        "y": 260,
+        "wires": [
+            [
+                "0ade3a9113a3b6f2"
+            ]
+        ]
+    },
+    {
+        "id": "0ade3a9113a3b6f2",
+        "type": "change",
+        "z": "37c42323e7f1140b",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 360,
+        "y": 260,
+        "wires": [
+            [
+                "737f7057ac5cfa18"
+            ]
+        ]
+    },
+    {
+        "id": "16c058e92a7d5c0f",
+        "type": "rbe",
+        "z": "37c42323e7f1140b",
+        "name": "",
+        "func": "rbe",
+        "gap": "",
+        "start": "",
+        "inout": "out",
+        "septopics": true,
+        "property": "payload",
+        "topi": "topic",
+        "x": 670,
+        "y": 580,
+        "wires": [
+            [
+                "737f7057ac5cfa18",
+                "29e42885e8fe8f01"
             ]
         ]
     }
