@@ -1,0 +1,33 @@
+{
+    "name": "smart-fun-run-teama-component3",
+    "version": "1.0.0",
+    "description": "**Project Title & Component Name:** Team A: Centralized Dashboard\r ## Team Members & Roles",
+    "main": "index.js",
+    "directories": {
+        "doc": "docs"
+    },
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Yang-11-7/Smart-Fun-Run-TeamA-Component3.git"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "type": "commonjs",
+    "bugs": {
+        "url": "https://github.com/Yang-11-7/Smart-Fun-Run-TeamA-Component3/issues"
+    },
+    "homepage": "https://github.com/Yang-11-7/Smart-Fun-Run-TeamA-Component3#readme",
+    "node-red": {
+        "settings": {
+            "flowFile": "arc_os/flow.json",
+            "credentialsFile": "arc_os/flow_cred.json"
+        }
+    },
+    "dependencies": {
+        "@flowfuse/node-red-dashboard": "1.30.2"
+    }
+}
