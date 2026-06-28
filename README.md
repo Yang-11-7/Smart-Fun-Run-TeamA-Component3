@@ -7,11 +7,11 @@
 | LEE ZI YANG | AN230131 | IoT (BNF44403) & OS (BNF32303) | Leader, programmer |
 | LIM WEI MING | AN230114 | IoT (BNF44403) & OS (BNF32303) | secretary |
 | LOO JIA QUAN | AN230105 | IoT (BNF44403) & OS (BNF32303) | second secretary |
-| NUR DINI DAYANA BINTI AHMAD KHOMEINI | DN240100 | OS (BNF32303) | - |
-| KHAIRUNNAJLAA BINTI ZAMRI | DN240125 | OS (BNF32303) | - |
-| NUR ATIFAH AZIDA BINTI MD. AZLI | DN240098 | OS (BNF32303) | - |
-| NORFAIZ AMSYAR BIN NORFAIZAL | DN240096 | OS (BNF32303) | - |
-| MUHAMMAD HASANUL HILMAN BIN MOHD NORHASNI | DN240049 | OS (BNF32303) | - |
+| NUR DINI DAYANA BINTI AHMAD KHOMEINI | DN240100 | OS (BNF32303) | Front-End Dashboard Designer|
+| KHAIRUNNAJLAA BINTI ZAMRI | DN240125 | OS (BNF32303) | System Deployment Specialist|
+| NUR ATIFAH AZIDA BINTI MD. AZLI | DN240098 | OS (BNF32303) | Data Flow & QA Tester |
+| NORFAIZ AMSYAR BIN NORFAIZAL | DN240096 | OS (BNF32303) | Logistics & Event Coordinator |
+| MUHAMMAD HASANUL HILMAN BIN MOHD NORHASNI | DN240049 | OS (BNF32303) | Project Manager & Documentation Lead |
 
 ## Component Overview
 Component 3 serves as the centralized Node-RED dashboard for the Smart Fun Run ecosystem. It acts as the primary orchestrator bridging the physical IoT edge nodes with the backend operating system, processing incoming telemetry payloads into standardized JSON formats. The system provides real-time visualization of event metricssuch as participant checkpoint tracking and network latency—and features automated alert mechanisms to monitor overall system health and microservice connectivity for Team A.
