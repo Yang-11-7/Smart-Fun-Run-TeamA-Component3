@@ -5,8 +5,8 @@
 | Name | Matric Number | Course | Project Role |
 | :--- | :--- | :--- | :--- |
 | LEE ZI YANG | AN230131 | IoT (BNF44403) & OS (BNF32303) | Leader, programmer |
-| LIM WEI MING | AN230114 | IoT (BNF44403) & OS (BNF32303) | Secretary |
-| LOO JIA QUAN | AN230105 | IoT (BNF44403) & OS (BNF32303) | Second secretary |
+| LIM WEI MING | AN230114 | IoT (BNF44403) & OS (BNF32303) | Secretary, IoT Software |
+| LOO JIA QUAN | AN230105 | IoT (BNF44403) & OS (BNF32303) | Second secretary, IoT Testing and Integration |
 | NUR DINI DAYANA BINTI AHMAD KHOMEINI | DN240100 | OS (BNF32303) | OS Backend Developer |
 | KHAIRUNNAJLAA BINTI ZAMRI | DN240125 | OS (BNF32303) | System integration and testing |
 | NUR ATIFAH AZIDA BINTI MD. AZLI | DN240098 | OS (BNF32303) | OS Communication |
